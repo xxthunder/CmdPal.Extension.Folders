@@ -29,6 +29,10 @@ turns into settings.
   Windows instead of skipping (xUnit 2.9 has no dynamic skip), so it shows as passed there; a
   drive-root pattern `C:\**` has no test yet; and a pattern of just `C:` without `\**` still
   resolves drive-relative, to the process's current directory on that drive.
+- From CPF-003's review: the CLI tests start `dotnet run tools/catalog.cs` from `PATH` and
+  compare stdout line by line — on the Windows job the tool's first, cold build happens inside
+  the first test unless the job builds it first (`scripts/gate` does), and any build message on
+  stdout would break the comparison.
 
 **Acceptance Criteria**:
 - [ ] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
