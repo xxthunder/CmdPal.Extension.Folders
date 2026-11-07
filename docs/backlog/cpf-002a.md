@@ -23,6 +23,11 @@ skipped, as `Directory.EnumerateFiles` does by default. Junctions and symbolic l
 folders are followed; each real folder is listed once, so a link back up the tree ends
 instead of looping and a folder reached twice yields its files once.
 
+Hidden folders are skipped along with their files, as are folders that cannot be read. An entry
+carries the path as it was reached, not the link's target. Entries are ordered by full path,
+ignoring case. A blank pattern is an error; a relative one resolves against the current
+directory (CPF-002c's settings parsing drops blank lines).
+
 This substory also sets up the gate: `scripts/gate` runs the library's tests in
 `mcr.microsoft.com/dotnet/sdk:10.0`, so they run on the dev VM without a local .NET SDK, and a
 GitHub Actions workflow runs the same tests on every pull request.
