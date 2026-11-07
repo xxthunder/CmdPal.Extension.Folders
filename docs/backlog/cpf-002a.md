@@ -19,13 +19,24 @@ extensions and returns entries — full path, name, folder. The patterns follow 
 Environment variables in the form `%NAME%` and a leading `~` are expanded. Extensions match
 case-insensitively, with or without their leading dot. A folder that does not exist yields no
 entries and no error; a file reached by two patterns appears once. Hidden and system files are
-skipped, as `Directory.EnumerateFiles` does by default.
+skipped, as `Directory.EnumerateFiles` does by default. Junctions and symbolic links to
+folders are followed; each real folder is listed once, so a link back up the tree ends
+instead of looping and a folder reached twice yields its files once.
 
 This substory also sets up the gate: `scripts/gate` runs the library's tests in
 `mcr.microsoft.com/dotnet/sdk:10.0`, so they run on the dev VM without a local .NET SDK, and a
 GitHub Actions workflow runs the same tests on every pull request.
 
+**Scope Decisions**:
+- **2026-11-07 — Links are followed**: junctions and symbolic links below a `\**` pattern are
+  followed, as Keypirinha does; every real folder is listed once.
+- **2026-11-07 — Folders only**: the two pattern forms are all there is — no wildcards in
+  file names. Which files count is the extension list's job.
+- **2026-11-07 — CI on Ubuntu**: the library's tests run on `ubuntu-latest`; symbolic links
+  stand in for junctions there. The Windows job that CPF-002b adds for the extension also runs
+  them, and covers what Linux cannot — real junctions, drive letters, case-insensitive paths.
+
 **Acceptance Criteria**:
-- [ ] Tests cover both pattern forms, `%NAME%` and `~` expansion, case-insensitive extensions with and without dot, a missing folder, and a file reached by two patterns
+- [ ] Tests cover both pattern forms, `%NAME%` and `~` expansion, case-insensitive extensions with and without dot, a missing folder, a file reached by two patterns, a followed folder link, and a link that points back up the tree
 - [ ] `scripts/gate` runs the tests in the .NET SDK container and exits 0 only when they pass
 - [ ] CI runs the tests on every pull request
