@@ -27,4 +27,4 @@ turns into settings.
 - [ ] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
 - [ ] A command's ID is the file's full path
 - [ ] Invoking a command starts the file through the shell
-- [ ] CI builds the extension on a Windows runner
+- [ ] CI builds the extension on a Windows runner and runs the library's tests there too
