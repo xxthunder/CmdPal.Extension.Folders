@@ -9,6 +9,7 @@
 ## Table of Contents
 
 ### Open
+- [CPF-003 — A command-line tool lists the catalogue for given patterns and extensions](cpf-003.md)
 - [CPF-002e — The author installs a signed package from CI](cpf-002e.md)
 - [CPF-002d — A file added to a catalogued folder appears without a restart](cpf-002d.md)
 - [CPF-002c — Folders and extensions are settings of the extension](cpf-002c.md)
