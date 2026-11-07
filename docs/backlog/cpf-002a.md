@@ -1,6 +1,6 @@
 # [CPF-002a] The catalogue library lists files by folder pattern and extension
 
-**Status**: Open
+**Status**: In Progress
 **Priority**: Medium
 **Component**: `src/FoldersCatalog/`, `tests/FoldersCatalog.Tests/`, `scripts/gate`, `.github/workflows/`
 
