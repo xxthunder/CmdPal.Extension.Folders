@@ -29,14 +29,21 @@ public sealed class FolderPatternTests : IDisposable
         Assert.True(pattern.Recursive);
     }
 
-    [Fact]
+    [UnixFact]
     public void Parse_RootRecursive_KeepsTheRoot()
     {
-        if (OperatingSystem.IsWindows()) return;
-
         var pattern = FolderPattern.Parse("/**");
 
         Assert.Equal("/", pattern.Folder);
+        Assert.True(pattern.Recursive);
+    }
+
+    [WindowsFact]
+    public void Parse_DriveRootRecursive_KeepsTheRoot()
+    {
+        var pattern = FolderPattern.Parse(@"C:\**");
+
+        Assert.Equal(@"C:\", pattern.Folder);
         Assert.True(pattern.Recursive);
     }
 
