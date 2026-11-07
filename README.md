@@ -9,6 +9,17 @@ desktop and `PATH`.
 
 Status: in development — see the [backlog](docs/backlog/README.md).
 
+## Listing the catalogue
+
+From the repository root, with the .NET 10 SDK:
+
+```
+dotnet run tools/catalog.cs -- --ext ".url .lnk .cmd .bat .exe" "%USERPROFILE%\shortcuts\**" "%USERPROFILE%\shortcuts_private\**"
+```
+
+It prints one line per entry (name, folder, full path, tab-separated), then the number of
+entries; without patterns or without `--ext` it prints its usage and exits with 2.
+
 ## License
 
 [MIT](LICENSE)
