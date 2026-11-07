@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CmdPal.Extension.Folders (Package)": {
+      "commandName": "MsixPackage",
+      "doNotLaunchApp": true
+    },
+    "CmdPal.Extension.Folders (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
