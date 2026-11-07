@@ -1,6 +1,6 @@
 # [CPF-002b] The extension lists the catalogue as top-level commands and starts a file
 
-**Status**: Open
+**Status**: In Progress
 **Priority**: Medium
 **Component**: `src/CmdPal.Extension.Folders/`, `.github/workflows/`
 
@@ -33,6 +33,10 @@ turns into settings.
   compare stdout line by line — on the Windows job the tool's first, cold build happens inside
   the first test unless the job builds it first (`scripts/gate` does), and any build message on
   stdout would break the comparison.
+- From the first try on the author's machine: an `dotnet.exe` from a runtime-only install in
+  `C:\Program Files\dotnet` comes first on the machine `PATH` and finds no SDK
+  ("No .NET SDKs were found"), even with the SDK installed through Scoop. A local build of the
+  extension needs the SDK where that `dotnet` looks — e.g. `winget install Microsoft.DotNet.SDK.10`.
 
 **Acceptance Criteria**:
 - [ ] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
