@@ -38,6 +38,12 @@ turns into settings.
   ("No .NET SDKs were found"), even with the SDK installed through Scoop. A local build of the
   extension needs the SDK where that `dotnet` looks — e.g. `winget install Microsoft.DotNet.SDK.10`.
 
+**Scope Decisions**:
+- **2026-11-07 — A bare `C:` stays drive-relative**: a pattern of just a drive letter and colon
+  resolves as `Path.GetFullPath` resolves it, to the current directory on that drive. Nobody
+  writes it for a catalogue; `C:\` and `C:\**` work. If a setting should reject it, that is
+  CPF-002c's parsing.
+
 **Acceptance Criteria**:
 - [ ] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
 - [ ] A command's ID is the file's full path
