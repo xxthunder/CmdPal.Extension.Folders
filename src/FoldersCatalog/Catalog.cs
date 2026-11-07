@@ -18,7 +18,7 @@ public static class Catalog
         foreach (var pattern in patterns)
         {
             var parsed = FolderPattern.Parse(pattern);
-            var real = Directory.Exists(parsed.Folder) ? RealRoot(parsed.Folder) : null;
+            var real = Resolve(parsed.Folder, () => RealRoot(parsed.Folder));
             if (real is null)
             {
                 continue;
@@ -46,7 +46,8 @@ public static class Catalog
             var fileName = Path.GetFileName(file);
             if (wanted.Contains(Path.GetExtension(fileName)) && listed.Add(Path.Combine(real, fileName)))
             {
-                entries.Add(new CatalogEntry(file, Path.GetFileNameWithoutExtension(fileName), dir));
+                var name = Path.GetFileNameWithoutExtension(fileName);
+                entries.Add(new CatalogEntry(file, name.Length == 0 ? fileName : name, dir));
             }
         }
 
@@ -86,14 +87,29 @@ public static class Catalog
 
     // The real path of a folder: a link resolves to its final target, anything else to `plain`.
     // Null when the folder, or the target of a link, does not exist.
-    private static string? RealFolder(string path, string plain)
+    private static string? RealFolder(string path, string plain) =>
+        Resolve(path, () =>
+        {
+            var target = Directory.ResolveLinkTarget(path, returnFinalTarget: true);
+            return target is null ? plain : RealRoot(Path.GetFullPath(target.FullName));
+        });
+
+    // Runs `resolve` for an existing folder; null when the folder, or the target of a link, does not exist.
+    private static string? Resolve(string path, Func<string> resolve)
     {
         if (!Directory.Exists(path))
         {
             return null;
         }
 
-        var target = Directory.ResolveLinkTarget(path, returnFinalTarget: true);
-        return target is null ? plain : RealRoot(Path.GetFullPath(target.FullName));
+        try
+        {
+            return resolve();
+        }
+        catch (IOException)
+        {
+            // Windows: a link whose target is gone passes Directory.Exists, but resolving it throws.
+            return null;
+        }
     }
 }

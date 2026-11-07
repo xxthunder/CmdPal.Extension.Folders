@@ -140,6 +140,13 @@ public sealed class CatalogTests : IDisposable
         Touch("root", ".hid", "c.cmd");
         Touch("root", "a.cmd");
 
+        if (OperatingSystem.IsWindows())
+        {
+            // A leading dot means hidden only on Unix; Windows uses the Hidden attribute.
+            File.SetAttributes(P("root", ".h.cmd"), File.GetAttributes(P("root", ".h.cmd")) | FileAttributes.Hidden);
+            new DirectoryInfo(P("root", ".hid")).Attributes |= FileAttributes.Hidden;
+        }
+
         var entries = Catalog.Build([P("root") + "/**"], Cmd);
 
         Assert.Equal(Sorted(P("root", "a.cmd")), Paths(entries));
@@ -233,14 +240,10 @@ public sealed class CatalogTests : IDisposable
         Assert.Equal(Sorted(P("root", "a.cmd")), Paths(entries));
     }
 
-    [Fact]
+    [UnixFact]
+    [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     public void Build_UnreadableSubfolder_IsSkipped()
     {
-        if (OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
         Touch("root", "a.cmd");
         Touch("root", "locked", "c.cmd");
         _lockedFolder = P("root", "locked");
@@ -249,6 +252,27 @@ public sealed class CatalogTests : IDisposable
         var entries = Catalog.Build([P("root") + "/**"], Cmd);
 
         Assert.Equal(Sorted(P("root", "a.cmd")), Paths(entries));
+    }
+
+    [Fact]
+    public void Build_DanglingRootLink_YieldsNothing()
+    {
+        Directory.CreateSymbolicLink(P("rootlink"), P("gone"));
+
+        var entries = Catalog.Build([P("rootlink") + "/**"], Cmd);
+
+        Assert.Empty(entries);
+    }
+
+    [WindowsFact]
+    public void Build_FileNamedOnlyByExtension_UsesFullFileName()
+    {
+        Touch("root", ".cmd");
+
+        var entries = Catalog.Build([P("root") + "/**"], Cmd);
+
+        var entry = Assert.Single(entries);
+        Assert.Equal(".cmd", entry.Name);
     }
 
     [Fact]
