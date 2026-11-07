@@ -23,6 +23,13 @@ on top.
 For this substory the folders and extensions are fixed in code — the defaults that CPF-002c
 turns into settings.
 
+**Technical Notes**:
+- From CPF-002a's review: the Windows job is the first to run the library's tests on Windows.
+  Three things only it can show — `Build_UnreadableSubfolder_IsSkipped` returns early on
+  Windows instead of skipping (xUnit 2.9 has no dynamic skip), so it shows as passed there; a
+  drive-root pattern `C:\**` has no test yet; and a pattern of just `C:` without `\**` still
+  resolves drive-relative, to the process's current directory on that drive.
+
 **Acceptance Criteria**:
 - [ ] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
 - [ ] A command's ID is the file's full path

@@ -15,6 +15,12 @@ a `git pull` in `~\shortcuts`, rebuilds the catalogue once, after the folder has
 a short time, and then raises `ItemsChanged`. The debounce is part of the library and tested
 there with a fake clock.
 
+**Technical Notes**:
+- From CPF-002a's review: `Catalog.Build` throws when a folder disappears between its
+  existence check and its enumeration (`DirectoryNotFoundException`), or when a link target's
+  ancestor cannot be traversed (`UnauthorizedAccessException`). Watcher-driven rebuilds meet
+  both — a rebuild must not end the catalogue on them.
+
 **Acceptance Criteria**:
 - [ ] A burst of change events leads to one rebuild after the quiet time, with tests
 - [ ] A file created in a catalogued folder appears in the main search without a restart of Command Palette
