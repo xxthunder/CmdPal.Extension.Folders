@@ -36,6 +36,6 @@
 
 ## Notes
 
-- **ID prefix**: `CPF` (CmdPal.Extension.Folders)
+- **ID prefix**: `CPF` (CmdPal.Extension.Folders, now CmdPal.Extension.Shortcuts — the prefix stays)
 - Keep items actionable with clear acceptance criteria
 - Do NOT list commit hashes in backlog entries — the backlog is part of the commit itself, so hashes are circular and go stale after squash/rebase
