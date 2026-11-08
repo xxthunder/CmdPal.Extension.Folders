@@ -27,6 +27,11 @@ is tested.
 - **2026-11-08 — One place for the defaults**: the defaults move from the provider into the
   settings; `tools/catalog.cs` keeps having none and parses `--ext` with the library's parser.
 
+- **2026-11-08 — The Windows setup guide rides along**: at the author's request, the README's
+  sections on setting up a Windows machine and trying a development build go into this item's
+  pull request, though they belong to no item — they were learned during the UATs of CPF-002b
+  and CPF-002c.
+
 **Acceptance Criteria**:
 - [ ] The library parses the folder text (one pattern per line, blank lines ignored) and the extension text (separated by spaces), with tests
 - [ ] The extension's settings page shows both settings with the defaults above
