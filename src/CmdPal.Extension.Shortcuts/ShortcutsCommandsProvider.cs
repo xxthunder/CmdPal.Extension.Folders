@@ -7,23 +7,23 @@ using FoldersCatalog;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 
-namespace CmdPal.Extension.Folders;
+namespace CmdPal.Extension.Shortcuts;
 
-public sealed partial class FoldersCommandsProvider : CommandProvider
+public sealed partial class ShortcutsCommandsProvider : CommandProvider
 {
     private readonly SettingsManager _settings;
 
     private ICommandItem[] _commands;
 
-    public FoldersCommandsProvider()
+    public ShortcutsCommandsProvider()
         : this(new SettingsManager())
     {
     }
 
-    public FoldersCommandsProvider(SettingsManager settings)
+    public ShortcutsCommandsProvider(SettingsManager settings)
     {
         _settings = settings;
-        DisplayName = "Folders";
+        DisplayName = "Shortcuts";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         Settings = settings.Settings;
         _commands = BuildCommands();

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CmdPal.Extension.Folders</RootNamespace>
+    <RootNamespace>CmdPal.Extension.Shortcuts</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
 
     <WindowsSdkPackageVersion>10.0.26100.68-preview</WindowsSdkPackageVersion>

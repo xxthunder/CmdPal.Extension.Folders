@@ -7,16 +7,16 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.CommandPalette.Extensions;
 
-namespace CmdPal.Extension.Folders;
+namespace CmdPal.Extension.Shortcuts;
 
-[Guid("6B75E711-32C4-4E71-9519-ECAD051869D9")]
-public sealed partial class FoldersExtension : IExtension, IDisposable
+[Guid("582FF496-4077-40D2-BC1C-3E721DA586B4")]
+public sealed partial class ShortcutsExtension : IExtension, IDisposable
 {
     private readonly ManualResetEvent _extensionDisposedEvent;
 
-    private readonly FoldersCommandsProvider _provider = new();
+    private readonly ShortcutsCommandsProvider _provider = new();
 
-    public FoldersExtension(ManualResetEvent extensionDisposedEvent)
+    public ShortcutsExtension(ManualResetEvent extensionDisposedEvent)
     {
         this._extensionDisposedEvent = extensionDisposedEvent;
     }

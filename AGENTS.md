@@ -13,7 +13,7 @@ epic [CPF-002](docs/backlog/cpf-002.md) holds the overall design.
 - `src/FoldersCatalog/` — the catalogue library, `net10.0`, no Windows dependency: which
   files count, settings parsing, debouncing. Everything that can be tested without Windows
   lives here.
-- `src/CmdPal.Extension.Folders/` — the extension, `net10.0-windows`, MSIX, from the
+- `src/CmdPal.Extension.Shortcuts/` — the extension, `net10.0-windows`, MSIX, from the
   template of Command Palette's *Create extension*. It only maps catalogue entries onto
   commands; keep logic out of it.
 - `tests/` — the library's tests, and the extension's tests (Windows only).
@@ -21,7 +21,7 @@ epic [CPF-002](docs/backlog/cpf-002.md) holds the overall design.
 ## Working here
 
 - Test first: a change to the library starts with a failing test.
-- Run `scripts/gate` before every commit (it arrives with CPF-002a). It runs the library's tests in the
+- Run `scripts/gate` before every commit. It runs the library's tests in the
   `mcr.microsoft.com/dotnet/sdk:10.0` container, so no local .NET SDK is needed.
 - The extension builds only on Windows — on the author's Windows machine or in CI.
 - Code goes through a pull request into `develop`, from a feature branch
