@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 
-namespace CmdPal.Extension.Folders;
+namespace CmdPal.Extension.Shortcuts;
 
 /// <summary>Starts one file through the shell, in its own folder.</summary>
 public sealed partial class StartFileCommand : InvokableCommand

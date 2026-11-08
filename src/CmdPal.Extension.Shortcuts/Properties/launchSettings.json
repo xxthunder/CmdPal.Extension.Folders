@@ -1,10 +1,10 @@
 {
   "profiles": {
-    "CmdPal.Extension.Folders (Package)": {
+    "CmdPal.Extension.Shortcuts (Package)": {
       "commandName": "MsixPackage",
       "doNotLaunchApp": true
     },
-    "CmdPal.Extension.Folders (Unpackaged)": {
+    "CmdPal.Extension.Shortcuts (Unpackaged)": {
       "commandName": "Project"
     }
   }

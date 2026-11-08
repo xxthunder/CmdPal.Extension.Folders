@@ -9,14 +9,14 @@
   IgnorableNamespaces="uap uap3 rescap">
 
   <Identity
-    Name="CmdPal.Extension.Folders"
+    Name="CmdPal.Extension.Shortcuts"
     Publisher="CN=xxthunder"
     Version="0.0.1.0" />
   <!-- When you're ready to publish your extension, you'll need to change the
        Publisher= to match your own identity -->
 
   <Properties>
-    <DisplayName>Folders</DisplayName>
+    <DisplayName>Shortcuts</DisplayName>
     <PublisherDisplayName>xxthunder</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -35,8 +35,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Folders"
-        Description="Folders"
+        DisplayName="Shortcuts"
+        Description="Shortcuts"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
@@ -46,21 +46,21 @@
       <Extensions>
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="CmdPal.Extension.Folders.exe" Arguments="-RegisterProcessAsComServer" DisplayName="Folders">
-              <com:Class Id="6B75E711-32C4-4E71-9519-ECAD051869D9" DisplayName="Folders" />
+            <com:ExeServer Executable="CmdPal.Extension.Shortcuts.exe" Arguments="-RegisterProcessAsComServer" DisplayName="Shortcuts">
+              <com:Class Id="582FF496-4077-40D2-BC1C-3E721DA586B4" DisplayName="Shortcuts" />
             </com:ExeServer>
           </com:ComServer>
         </com:Extension>
         <uap3:Extension Category="windows.appExtension">
           <uap3:AppExtension Name="com.microsoft.commandpalette"
-            Id="Folders"
+            Id="Shortcuts"
             PublicFolder="Public"
-            DisplayName="Folders"
-            Description="Folders">
+            DisplayName="Shortcuts"
+            Description="Shortcuts">
             <uap3:Properties>
               <CmdPalProvider>
                 <Activation>
-                  <CreateInstance ClassId="6B75E711-32C4-4E71-9519-ECAD051869D9" />
+                  <CreateInstance ClassId="582FF496-4077-40D2-BC1C-3E721DA586B4" />
                 </Activation>
                 <SupportedInterfaces>
                   <Commands/>

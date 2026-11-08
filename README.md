@@ -1,4 +1,4 @@
-# CmdPal.Extension.Folders
+# CmdPal.Extension.Shortcuts
 
 A [PowerToys Command Palette](https://learn.microsoft.com/windows/powertoys/command-palette/overview)
 extension that catalogues folders of your choice into the main search — the files in them,
@@ -6,6 +6,15 @@ filtered by extension, as top-level commands that Command Palette ranks by how o
 recently you start them. It fills the gap Keypirinha's `filescatalog` leaves when moving to
 Command Palette: the built-in *Installed apps* extension searches only the Start menu, the
 desktop and `PATH`.
+
+*Shortcuts* here are the small things you start by name: scripts (`.cmd`, `.bat`), links
+(`.lnk`, `.url`) and programs (`.exe`), kept in folders of your own — such as `~\shortcuts`,
+where [xxthunder/shortcuts](https://github.com/xxthunder/shortcuts), a keyboard-driven launcher
+and automation toolkit for Windows, installs itself and its scripts. By default the extension catalogues
+`%USERPROFILE%\shortcuts\**` and `%USERPROFILE%\shortcuts_private\**` with those five
+extensions; both are settings.
+
+Formerly called CmdPal.Extension.Folders.
 
 Status: in development — see the [backlog](docs/backlog/README.md).
 
@@ -48,8 +57,8 @@ From the repository root:
 ```powershell
 dotnet build tools/catalog.cs
 dotnet test tests/FoldersCatalog.Tests/FoldersCatalog.Tests.csproj
-dotnet test tests/CmdPal.Extension.Folders.Tests/CmdPal.Extension.Folders.Tests.csproj -p:Platform=x64
-dotnet build src/CmdPal.Extension.Folders/CmdPal.Extension.Folders.csproj -c Release -p:Platform=x64
+dotnet test tests/CmdPal.Extension.Shortcuts.Tests/CmdPal.Extension.Shortcuts.Tests.csproj -p:Platform=x64
+dotnet build src/CmdPal.Extension.Shortcuts/CmdPal.Extension.Shortcuts.csproj -c Release -p:Platform=x64
 ```
 
 ## Trying a development build
@@ -57,8 +66,8 @@ dotnet build src/CmdPal.Extension.Folders/CmdPal.Extension.Folders.csproj -c Rel
 Register the build, then run *Reload extensions* in Command Palette:
 
 ```powershell
-dotnet build src/CmdPal.Extension.Folders/CmdPal.Extension.Folders.csproj -p:Platform=x64
-Add-AppxPackage -Register (Resolve-Path "src\CmdPal.Extension.Folders\bin\x64\Debug\net10.0-windows10.0.26100.0\win-x64\AppxManifest.xml")
+dotnet build src/CmdPal.Extension.Shortcuts/CmdPal.Extension.Shortcuts.csproj -p:Platform=x64
+Add-AppxPackage -Register (Resolve-Path "src\CmdPal.Extension.Shortcuts\bin\x64\Debug\net10.0-windows10.0.26100.0\win-x64\AppxManifest.xml")
 ```
 
 A registered development build runs in place from that `bin` folder, so Command Palette's
@@ -66,12 +75,12 @@ extension process holds its files. Before each rebuild, stop it — Command Pale
 again on *Reload extensions*:
 
 ```powershell
-Stop-Process -Name CmdPal.Extension.Folders -ErrorAction SilentlyContinue
-dotnet build src/CmdPal.Extension.Folders/CmdPal.Extension.Folders.csproj -p:Platform=x64
+Stop-Process -Name CmdPal.Extension.Shortcuts -ErrorAction SilentlyContinue
+dotnet build src/CmdPal.Extension.Shortcuts/CmdPal.Extension.Shortcuts.csproj -p:Platform=x64
 ```
 
 Register again only when `Package.appxmanifest` changed. Remove it with
-`Get-AppxPackage CmdPal.Extension.Folders | Remove-AppxPackage`.
+`Get-AppxPackage CmdPal.Extension.Shortcuts | Remove-AppxPackage`.
 
 ## License
 

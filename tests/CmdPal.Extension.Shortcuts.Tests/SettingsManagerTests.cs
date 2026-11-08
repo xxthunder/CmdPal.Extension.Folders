@@ -1,7 +1,7 @@
 using System.Text.Json;
-using CmdPal.Extension.Folders;
+using CmdPal.Extension.Shortcuts;
 
-namespace CmdPal.Extension.Folders.Tests;
+namespace CmdPal.Extension.Shortcuts.Tests;
 
 public sealed class SettingsManagerTests : IDisposable
 {
