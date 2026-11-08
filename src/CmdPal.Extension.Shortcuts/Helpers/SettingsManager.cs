@@ -7,11 +7,11 @@ using System.IO;
 using FoldersCatalog;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 
-namespace CmdPal.Extension.Folders;
+namespace CmdPal.Extension.Shortcuts;
 
 public sealed partial class SettingsManager : JsonSettingsManager
 {
-    private const string Namespace = "CmdPal.Extension.Folders";
+    private const string Namespace = "CmdPal.Extension.Shortcuts";
 
     public const string PatternsKey = Namespace + ".Patterns";
 

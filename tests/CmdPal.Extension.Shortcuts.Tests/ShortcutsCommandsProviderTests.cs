@@ -1,15 +1,15 @@
 using System.Text.Json;
-using CmdPal.Extension.Folders;
+using CmdPal.Extension.Shortcuts;
 using Microsoft.CommandPalette.Extensions;
 
-namespace CmdPal.Extension.Folders.Tests;
+namespace CmdPal.Extension.Shortcuts.Tests;
 
-public sealed class FoldersCommandsProviderTests : IDisposable
+public sealed class ShortcutsCommandsProviderTests : IDisposable
 {
     private readonly string _root = Path.GetFullPath(
         Path.Combine(Path.GetTempPath(), "cpf-provider-" + Guid.NewGuid().ToString("N")));
 
-    public FoldersCommandsProviderTests() => Directory.CreateDirectory(_root);
+    public ShortcutsCommandsProviderTests() => Directory.CreateDirectory(_root);
 
     public void Dispose() => Directory.Delete(_root, recursive: true);
 
@@ -39,8 +39,23 @@ public sealed class FoldersCommandsProviderTests : IDisposable
 
     private ICommandItem[] Items(params string[] patterns)
     {
-        var provider = new FoldersCommandsProvider(Manager(string.Join("\n", patterns)));
+        var provider = new ShortcutsCommandsProvider(Manager(string.Join("\n", patterns)));
         return provider.TopLevelCommands();
+    }
+
+    [Fact]
+    public void Provider_DisplayName_IsShortcuts()
+    {
+        var provider = new ShortcutsCommandsProvider(Manager(P("**")));
+
+        Assert.Equal("Shortcuts", provider.DisplayName);
+    }
+
+    [Fact]
+    public void SettingsManager_KeysUseTheShortcutsNamespace()
+    {
+        Assert.Equal("CmdPal.Extension.Shortcuts.Patterns", SettingsManager.PatternsKey);
+        Assert.Equal("CmdPal.Extension.Shortcuts.Extensions", SettingsManager.ExtensionsKey);
     }
 
     [Fact]
@@ -48,7 +63,7 @@ public sealed class FoldersCommandsProviderTests : IDisposable
     {
         var manager = Manager(P("**"));
 
-        var provider = new FoldersCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager);
 
         Assert.Same(manager.Settings, provider.Settings);
     }
@@ -61,7 +76,7 @@ public sealed class FoldersCommandsProviderTests : IDisposable
         var file = Path.Combine(_root, "settings-saved.json");
         File.WriteAllText(file, Json(P("a", "**"), ".cmd"));
         var manager = new SettingsManager(file);
-        var provider = new FoldersCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager);
         var raised = 0;
         provider.ItemsChanged += (_, _) => raised++;
         var newPattern = P("b", "**");
@@ -81,7 +96,7 @@ public sealed class FoldersCommandsProviderTests : IDisposable
         Touch("a.cmd");
         var manager = Manager("");
 
-        var provider = new FoldersCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager);
 
         Assert.Empty(provider.TopLevelCommands());
     }
@@ -92,7 +107,7 @@ public sealed class FoldersCommandsProviderTests : IDisposable
         Touch("a.cmd");
         var manager = Manager(P("**"), "");
 
-        var provider = new FoldersCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager);
 
         Assert.Empty(provider.TopLevelCommands());
     }

@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/CmdPal.Extension.Folders/CmdPal.Extension.Folders.csproj" />
+    <ProjectReference Include="../../src/CmdPal.Extension.Shortcuts/CmdPal.Extension.Shortcuts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

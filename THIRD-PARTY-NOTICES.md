@@ -2,7 +2,7 @@
 
 ## PowerToys Command Palette extension template
 
-The extension under `src/CmdPal.Extension.Folders/` derives from the extension template of
+The extension under `src/CmdPal.Extension.Shortcuts/` derives from the extension template of
 [microsoft/PowerToys](https://github.com/microsoft/PowerToys),
 `src/modules/cmdpal/ExtensionTemplate`, licensed under the MIT License:
 
