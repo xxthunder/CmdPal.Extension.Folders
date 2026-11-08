@@ -1,6 +1,6 @@
-# [CPF-002a] The catalogue library lists files by folder pattern and extension
+# [CPF-002a] ✅ DONE - The catalogue library lists files by folder pattern and extension
 
-**Status**: In Progress
+**Status**: Done (2026-11-08)
 **Priority**: Medium
 **Component**: `src/FoldersCatalog/`, `tests/FoldersCatalog.Tests/`, `scripts/gate`, `.github/workflows/`
 
@@ -42,9 +42,9 @@ GitHub Actions workflow runs the same tests on every pull request.
   them, and covers what Linux cannot — real junctions, drive letters, case-insensitive paths.
 
 **Acceptance Criteria**:
-- [ ] Tests cover both pattern forms, `%NAME%` and `~` expansion, case-insensitive extensions with and without dot, a missing folder, a file reached by two patterns, a followed folder link, and a link that points back up the tree
-- [ ] `scripts/gate` runs the tests in the .NET SDK container and exits 0 only when they pass
-- [ ] CI runs the tests on every pull request
+- [x] Tests cover both pattern forms, `%NAME%` and `~` expansion, case-insensitive extensions with and without dot, a missing folder, a file reached by two patterns, a followed folder link, and a link that points back up the tree
+- [x] `scripts/gate` runs the tests in the .NET SDK container and exits 0 only when they pass
+- [x] CI runs the tests on every pull request
 
 **UAT** (2026-11-07, the author's Windows machine, through CPF-003's tool):
 - [x] The catalogue of `~\shortcuts\**` and `~\shortcuts_private\**` with `.url .lnk .cmd .bat .exe` matches an independent `Get-ChildItem -Recurse -File -FollowSymlink` listing: 125 files each, none missing, none twice; `%USERPROFILE%` is expanded by the library

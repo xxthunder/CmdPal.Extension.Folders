@@ -1,6 +1,6 @@
-# [CPF-002b] The extension lists the catalogue as top-level commands and starts a file
+# [CPF-002b] ✅ DONE - The extension lists the catalogue as top-level commands and starts a file
 
-**Status**: In Progress
+**Status**: Done (2026-11-08)
 **Priority**: Medium
 **Component**: `src/CmdPal.Extension.Folders/`, `.github/workflows/`
 
@@ -45,10 +45,10 @@ turns into settings.
   CPF-002c's parsing.
 
 **Acceptance Criteria**:
-- [ ] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
-- [ ] A command's ID is the file's full path
-- [ ] Invoking a command starts the file through the shell
-- [ ] CI builds the extension on a Windows runner and runs the library's tests there too
+- [x] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon
+- [x] A command's ID is the file's full path
+- [x] Invoking a command starts the file through the shell
+- [x] CI builds the extension on a Windows runner and runs the library's tests there too
 
 **UAT** (2026-11-08, the author's Windows machine, branch of PR #3, registered as a development package):
 - [x] Scripts from `~\shortcuts` and `~\shortcuts_private` appear in Command Palette's main search, with their folder and icon
