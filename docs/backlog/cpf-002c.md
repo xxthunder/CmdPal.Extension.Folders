@@ -36,3 +36,9 @@ is tested.
 - [ ] The library parses the folder text (one pattern per line, blank lines ignored) and the extension text (separated by spaces), with tests
 - [ ] The extension's settings page shows both settings with the defaults above
 - [ ] A changed setting changes the entries in the main search without a restart of Command Palette
+
+**UAT** (2026-11-08, the author's Windows machine, branch of PR #4, development registration):
+- [x] The extension's settings show both fields with their defaults
+- [x] A folder line added and saved: its files appear in the main search at once, without a restart
+- [x] A folder line removed and saved: its entries disappear at once
+- Known and accepted: the list of found entries shown on the settings page does not refresh by itself after saving
