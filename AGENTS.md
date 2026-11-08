@@ -16,7 +16,7 @@ epic [CPF-002](docs/backlog/cpf-002.md) holds the overall design.
 - `src/CmdPal.Extension.Folders/` — the extension, `net10.0-windows`, MSIX, from the
   template of Command Palette's *Create extension*. It only maps catalogue entries onto
   commands; keep logic out of it.
-- `tests/` — the library's tests.
+- `tests/` — the library's tests, and the extension's tests (Windows only).
 
 ## Working here
 
