@@ -2,7 +2,7 @@
 
 **Status**: Open
 **Priority**: Medium
-**Component**: `src/FoldersCatalog/`, `src/CmdPal.Extension.Folders/`
+**Component**: `src/FoldersCatalog/`, `src/CmdPal.Extension.Shortcuts/`
 
 **Summary**:
 As a user of Command Palette, I want a new script to show up in the search right after I save

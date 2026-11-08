@@ -18,11 +18,11 @@
 - [CPF-007 — Badges in the README, coverage on Codecov](cpf-007.md)
 - [CPF-006 — Folders whose names start with a dot are left out unless named](cpf-006.md)
 - [CPF-005 — The extension shows its own icon](cpf-005.md)
-- [CPF-004 — The extension is called Shortcuts](cpf-004.md)
 - [CPF-002e — The author installs a signed package from CI](cpf-002e.md)
 - [CPF-002d — A file added to a catalogued folder appears without a restart](cpf-002d.md)
 
 ### In Progress
+- [CPF-004 — The repository and the extension are called Shortcuts](cpf-004.md)
 - [CPF-002 — Folders of your choice appear in the Command Palette main search](cpf-002.md)
 - [CPF-001 — Backlog refinement](cpf-001.md)
 
