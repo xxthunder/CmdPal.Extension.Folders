@@ -11,9 +11,9 @@
 ### Open
 - [CPF-002e — The author installs a signed package from CI](cpf-002e.md)
 - [CPF-002d — A file added to a catalogued folder appears without a restart](cpf-002d.md)
-- [CPF-002c — Folders and extensions are settings of the extension](cpf-002c.md)
 
 ### In Progress
+- [CPF-002c — Folders and extensions are settings of the extension](cpf-002c.md)
 - [CPF-002 — Folders of your choice appear in the Command Palette main search](cpf-002.md)
 - [CPF-001 — Backlog refinement](cpf-001.md)
 

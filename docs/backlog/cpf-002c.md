@@ -1,6 +1,6 @@
 # [CPF-002c] Folders and extensions are settings of the extension
 
-**Status**: Open
+**Status**: In Progress
 **Priority**: Medium
 **Component**: `src/CmdPal.Extension.Folders/Helpers/SettingsManager.cs`
 
@@ -17,6 +17,15 @@ author's: `%USERPROFILE%\shortcuts\**`, `%USERPROFILE%\shortcuts_private\**` and
 
 Parsing the two texts into patterns and extensions belongs to the catalogue library, where it
 is tested.
+
+**Scope Decisions**:
+- **2026-11-08 — Text fields, SDK 0.11**: the patterns are a multiline `TextSetting`, the
+  extensions a one-line one, as described above. The toolkit's `StringListSetting` (a list with
+  add and remove) needs a newer SDK and buys little for settings changed rarely;
+  `FilePathListSetting` (folder picker) is in no released SDK yet and suits `\**` and
+  `%USERPROFILE%` patterns badly.
+- **2026-11-08 — One place for the defaults**: the defaults move from the provider into the
+  settings; `tools/catalog.cs` keeps having none and parses `--ext` with the library's parser.
 
 **Acceptance Criteria**:
 - [ ] The library parses the folder text (one pattern per line, blank lines ignored) and the extension text (separated by spaces), with tests
