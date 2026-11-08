@@ -25,9 +25,9 @@ for (var i = 0; i < args.Length; i++)
     }
 }
 
-var extensions = ext?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
+var extensions = ext is null ? [] : CatalogSettings.ParseExtensions(ext);
 
-if (extMissing || extensions.Length == 0 || patterns.Count == 0)
+if (extMissing || extensions.Count == 0 || patterns.Count == 0)
 {
     Console.Error.WriteLine("Usage: dotnet run tools/catalog.cs -- --ext \"<extensions>\" <pattern>...");
     return 2;
