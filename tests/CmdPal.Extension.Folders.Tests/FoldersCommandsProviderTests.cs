@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CmdPal.Extension.Folders;
 using Microsoft.CommandPalette.Extensions;
 
@@ -5,8 +6,6 @@ namespace CmdPal.Extension.Folders.Tests;
 
 public sealed class FoldersCommandsProviderTests : IDisposable
 {
-    private static readonly string[] Cmd = [".cmd"];
-
     private readonly string _root = Path.GetFullPath(
         Path.Combine(Path.GetTempPath(), "cpf-provider-" + Guid.NewGuid().ToString("N")));
 
@@ -24,10 +23,78 @@ public sealed class FoldersCommandsProviderTests : IDisposable
         return path;
     }
 
-    private static ICommandItem[] Items(params string[] patterns)
+    private static string Json(string patterns, string extensions) =>
+        JsonSerializer.Serialize(new Dictionary<string, string>
+        {
+            [SettingsManager.PatternsKey] = patterns,
+            [SettingsManager.ExtensionsKey] = extensions,
+        });
+
+    private SettingsManager Manager(string patterns, string extensions = ".cmd")
     {
-        var provider = new FoldersCommandsProvider(patterns, Cmd);
+        var file = Path.Combine(_root, "settings-" + Guid.NewGuid().ToString("N") + ".json");
+        File.WriteAllText(file, Json(patterns, extensions));
+        return new SettingsManager(file);
+    }
+
+    private ICommandItem[] Items(params string[] patterns)
+    {
+        var provider = new FoldersCommandsProvider(Manager(string.Join("\n", patterns)));
         return provider.TopLevelCommands();
+    }
+
+    [Fact]
+    public void Provider_ExposesTheSettings()
+    {
+        var manager = Manager(P("**"));
+
+        var provider = new FoldersCommandsProvider(manager);
+
+        Assert.Same(manager.Settings, provider.Settings);
+    }
+
+    [Fact]
+    public void SavedSettings_ListTheNewFolderRaiseItemsChangedAndPersist()
+    {
+        Touch("a", "one.cmd");
+        Touch("b", "two.cmd");
+        var file = Path.Combine(_root, "settings-saved.json");
+        File.WriteAllText(file, Json(P("a", "**"), ".cmd"));
+        var manager = new SettingsManager(file);
+        var provider = new FoldersCommandsProvider(manager);
+        var raised = 0;
+        provider.ItemsChanged += (_, _) => raised++;
+        var newPattern = P("b", "**");
+
+        var form = (IFormContent)manager.Settings.ToContent()[0];
+        form.SubmitForm(Json(newPattern, ".cmd"), "");
+
+        var item = Assert.Single(provider.TopLevelCommands());
+        Assert.Equal("two", item.Title);
+        Assert.Equal(1, raised);
+        Assert.Contains(JsonSerializer.Serialize(newPattern).Trim('"'), File.ReadAllText(file));
+    }
+
+    [Fact]
+    public void EmptiedSettings_NoCommands()
+    {
+        Touch("a.cmd");
+        var manager = Manager("");
+
+        var provider = new FoldersCommandsProvider(manager);
+
+        Assert.Empty(provider.TopLevelCommands());
+    }
+
+    [Fact]
+    public void EmptiedExtensions_NoCommands()
+    {
+        Touch("a.cmd");
+        var manager = Manager(P("**"), "");
+
+        var provider = new FoldersCommandsProvider(manager);
+
+        Assert.Empty(provider.TopLevelCommands());
     }
 
     [Fact]

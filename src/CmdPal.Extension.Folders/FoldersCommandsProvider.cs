@@ -2,7 +2,6 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
 using System.Linq;
 using FoldersCatalog;
 using Microsoft.CommandPalette.Extensions;
@@ -12,23 +11,38 @@ namespace CmdPal.Extension.Folders;
 
 public sealed partial class FoldersCommandsProvider : CommandProvider
 {
-    private static readonly string[] DefaultPatterns =
-        [@"%USERPROFILE%\shortcuts\**", @"%USERPROFILE%\shortcuts_private\**"];
+    private readonly SettingsManager _settings;
 
-    private static readonly string[] DefaultExtensions = [".url", ".lnk", ".cmd", ".bat", ".exe"];
-
-    private readonly ICommandItem[] _commands;
+    private ICommandItem[] _commands;
 
     public FoldersCommandsProvider()
-        : this(DefaultPatterns, DefaultExtensions)
+        : this(new SettingsManager())
     {
     }
 
-    public FoldersCommandsProvider(IEnumerable<string> patterns, IEnumerable<string> extensions)
+    public FoldersCommandsProvider(SettingsManager settings)
     {
+        _settings = settings;
         DisplayName = "Folders";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
-        _commands = Catalog.Build(patterns, extensions)
+        Settings = settings.Settings;
+        _commands = BuildCommands();
+        settings.Settings.SettingsChanged += (_, _) => Reload();
+    }
+
+    private void Reload()
+    {
+        _commands = BuildCommands();
+        RaiseItemsChanged(_commands.Length);
+    }
+
+    public override ICommandItem[] TopLevelCommands()
+    {
+        return _commands;
+    }
+
+    private ICommandItem[] BuildCommands() =>
+        Catalog.Build(_settings.Patterns, _settings.Extensions)
             .Select(entry => (ICommandItem)new CommandItem(new StartFileCommand(entry.FullPath, (p, dir) => ShellHelpers.OpenInShell(p, workingDir: dir)))
             {
                 Title = entry.Name,
@@ -36,10 +50,4 @@ public sealed partial class FoldersCommandsProvider : CommandProvider
                 Icon = new IconInfo(entry.FullPath),
             })
             .ToArray();
-    }
-
-    public override ICommandItem[] TopLevelCommands()
-    {
-        return _commands;
-    }
 }
