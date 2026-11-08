@@ -49,3 +49,8 @@ turns into settings.
 - [ ] A command's ID is the file's full path
 - [ ] Invoking a command starts the file through the shell
 - [ ] CI builds the extension on a Windows runner and runs the library's tests there too
+
+**UAT** (2026-11-08, the author's Windows machine, branch of PR #3, registered as a development package):
+- [x] Scripts from `~\shortcuts` and `~\shortcuts_private` appear in Command Palette's main search, with their folder and icon
+- [x] A started `.cmd` runs in its own folder
+- [x] A script started before is on top at the next search, also after a restart of Command Palette
