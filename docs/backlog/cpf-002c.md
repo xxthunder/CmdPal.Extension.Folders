@@ -1,6 +1,6 @@
-# [CPF-002c] Folders and extensions are settings of the extension
+# [CPF-002c] ✅ DONE - Folders and extensions are settings of the extension
 
-**Status**: In Progress
+**Status**: Done (2026-11-08)
 **Priority**: Medium
 **Component**: `src/CmdPal.Extension.Folders/Helpers/SettingsManager.cs`
 
@@ -33,9 +33,9 @@ is tested.
   and CPF-002c.
 
 **Acceptance Criteria**:
-- [ ] The library parses the folder text (one pattern per line, blank lines ignored) and the extension text (separated by spaces), with tests
-- [ ] The extension's settings page shows both settings with the defaults above
-- [ ] A changed setting changes the entries in the main search without a restart of Command Palette
+- [x] The library parses the folder text (one pattern per line, blank lines ignored) and the extension text (separated by spaces), with tests
+- [x] The extension's settings page shows both settings with the defaults above
+- [x] A changed setting changes the entries in the main search without a restart of Command Palette
 
 **UAT** (2026-11-08, the author's Windows machine, branch of PR #4, development registration):
 - [x] The extension's settings show both fields with their defaults
