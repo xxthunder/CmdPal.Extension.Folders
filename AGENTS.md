@@ -6,7 +6,7 @@ Instructions for agents working in this repository.
 
 A PowerToys Command Palette extension in C#: it catalogues folders of the user's choice into
 the main search. The design and the work are in the [backlog](docs/backlog/README.md); the
-epic [CPF-002](docs/backlog/cpf-002.md) holds the overall design.
+epic [CPS-002](docs/backlog/cps-002.md) holds the overall design.
 
 ## Layout
 

@@ -1,4 +1,4 @@
-# [CPF-008c] Code comments link to the requirements through sphinx-codelinks
+# [CPS-008c] Code comments link to the requirements through sphinx-codelinks
 
 **Status**: Open
 **Priority**: Medium

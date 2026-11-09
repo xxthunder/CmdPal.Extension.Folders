@@ -1,4 +1,4 @@
-# [CPF-002c] ✅ DONE - Folders and extensions are settings of the extension
+# [CPS-002c] ✅ DONE - Folders and extensions are settings of the extension
 
 **Status**: Done (2026-11-08)
 **Priority**: Medium
@@ -29,8 +29,8 @@ is tested.
 
 - **2026-11-08 — The Windows setup guide rides along**: at the author's request, the README's
   sections on setting up a Windows machine and trying a development build go into this item's
-  pull request, though they belong to no item — they were learned during the UATs of CPF-002b
-  and CPF-002c.
+  pull request, though they belong to no item — they were learned during the UATs of CPS-002b
+  and CPS-002c.
 
 **Acceptance Criteria**:
 - [x] The library parses the folder text (one pattern per line, blank lines ignored) and the extension text (separated by spaces), with tests

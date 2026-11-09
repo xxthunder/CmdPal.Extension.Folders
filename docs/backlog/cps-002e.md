@@ -1,4 +1,4 @@
-# [CPF-002e] The author installs a signed package from CI
+# [CPS-002e] The author installs a signed package from CI
 
 **Status**: Open
 **Priority**: Medium

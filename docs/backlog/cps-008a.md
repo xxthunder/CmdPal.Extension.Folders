@@ -1,4 +1,4 @@
-# [CPF-008a] A Sphinx documentation with sphinx-needs builds in CI
+# [CPS-008a] A Sphinx documentation with sphinx-needs builds in CI
 
 **Status**: Open
 **Priority**: Medium

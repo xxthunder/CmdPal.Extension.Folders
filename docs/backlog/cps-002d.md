@@ -1,4 +1,4 @@
-# [CPF-002d] A file added to a catalogued folder appears without a restart
+# [CPS-002d] A file added to a catalogued folder appears without a restart
 
 **Status**: Open
 **Priority**: Medium
@@ -16,7 +16,7 @@ a short time, and then raises `ItemsChanged`. The debounce is part of the librar
 there with a fake clock.
 
 **Technical Notes**:
-- From CPF-002a's review: `Catalog.Build` throws when a folder disappears between its
+- From CPS-002a's review: `Catalog.Build` throws when a folder disappears between its
   existence check and its enumeration (`DirectoryNotFoundException`), or when a link target's
   ancestor cannot be traversed (`UnauthorizedAccessException`). Watcher-driven rebuilds meet
   both — a rebuild must not end the catalogue on them.

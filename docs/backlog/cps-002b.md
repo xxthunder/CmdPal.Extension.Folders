@@ -1,4 +1,4 @@
-# [CPF-002b] ✅ DONE - The extension lists the catalogue as top-level commands and starts a file
+# [CPS-002b] ✅ DONE - The extension lists the catalogue as top-level commands and starts a file
 
 **Status**: Done (2026-11-08)
 **Priority**: Medium
@@ -20,16 +20,16 @@ The command's ID is the file's full path. The built-in ranking (`RecentCommandsM
 its history on that ID, so it has to stay the same across restarts for a started file to stay
 on top.
 
-For this substory the folders and extensions are fixed in code — the defaults that CPF-002c
+For this substory the folders and extensions are fixed in code — the defaults that CPS-002c
 turns into settings.
 
 **Technical Notes**:
-- From CPF-002a's review: the Windows job is the first to run the library's tests on Windows.
+- From CPS-002a's review: the Windows job is the first to run the library's tests on Windows.
   Three things only it can show — `Build_UnreadableSubfolder_IsSkipped` returns early on
   Windows instead of skipping (xUnit 2.9 has no dynamic skip), so it shows as passed there; a
   drive-root pattern `C:\**` has no test yet; and a pattern of just `C:` without `\**` still
   resolves drive-relative, to the process's current directory on that drive.
-- From CPF-003's review: the CLI tests start `dotnet run tools/catalog.cs` from `PATH` and
+- From CPS-003's review: the CLI tests start `dotnet run tools/catalog.cs` from `PATH` and
   compare stdout line by line — on the Windows job the tool's first, cold build happens inside
   the first test unless the job builds it first (`scripts/gate` does), and any build message on
   stdout would break the comparison.
@@ -42,7 +42,7 @@ turns into settings.
 - **2026-11-07 — A bare `C:` stays drive-relative**: a pattern of just a drive letter and colon
   resolves as `Path.GetFullPath` resolves it, to the current directory on that drive. Nobody
   writes it for a catalogue; `C:\` and `C:\**` work. If a setting should reject it, that is
-  CPF-002c's parsing.
+  CPS-002c's parsing.
 
 **Acceptance Criteria**:
 - [x] The provider returns one top-level command per catalogue entry, with title, subtitle and the file's icon

@@ -1,4 +1,4 @@
-# [CPF-008d] A trace gate fails CI when a requirement has no test
+# [CPS-008d] A trace gate fails CI when a requirement has no test
 
 **Status**: Open
 **Priority**: Medium

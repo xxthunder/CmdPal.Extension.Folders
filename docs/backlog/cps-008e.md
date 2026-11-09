@@ -1,4 +1,4 @@
-# [CPF-008e] ubCode shows and checks the requirements in VS Code
+# [CPS-008e] ubCode shows and checks the requirements in VS Code
 
 **Status**: Open
 **Priority**: Medium

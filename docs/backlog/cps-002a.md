@@ -1,4 +1,4 @@
-# [CPF-002a] ✅ DONE - The catalogue library lists files by folder pattern and extension
+# [CPS-002a] ✅ DONE - The catalogue library lists files by folder pattern and extension
 
 **Status**: Done (2026-11-08)
 **Priority**: Medium
@@ -26,7 +26,7 @@ instead of looping and a folder reached twice yields its files once.
 Hidden folders are skipped along with their files, as are folders that cannot be read. An entry
 carries the path as it was reached, not the link's target. Entries are ordered by full path,
 ignoring case. A blank pattern is an error; a relative one resolves against the current
-directory (CPF-002c's settings parsing drops blank lines).
+directory (CPS-002c's settings parsing drops blank lines).
 
 This substory also sets up the gate: `scripts/gate` runs the library's tests in
 `mcr.microsoft.com/dotnet/sdk:10.0`, so they run on the dev VM without a local .NET SDK, and a
@@ -38,7 +38,7 @@ GitHub Actions workflow runs the same tests on every pull request.
 - **2026-11-07 — Folders only**: the two pattern forms are all there is — no wildcards in
   file names. Which files count is the extension list's job.
 - **2026-11-07 — CI on Ubuntu**: the library's tests run on `ubuntu-latest`; symbolic links
-  stand in for junctions there. The Windows job that CPF-002b adds for the extension also runs
+  stand in for junctions there. The Windows job that CPS-002b adds for the extension also runs
   them, and covers what Linux cannot — real junctions, drive letters, case-insensitive paths.
 
 **Acceptance Criteria**:
@@ -46,5 +46,5 @@ GitHub Actions workflow runs the same tests on every pull request.
 - [x] `scripts/gate` runs the tests in the .NET SDK container and exits 0 only when they pass
 - [x] CI runs the tests on every pull request
 
-**UAT** (2026-11-07, the author's Windows machine, through CPF-003's tool):
+**UAT** (2026-11-07, the author's Windows machine, through CPS-003's tool):
 - [x] The catalogue of `~\shortcuts\**` and `~\shortcuts_private\**` with `.url .lnk .cmd .bat .exe` matches an independent `Get-ChildItem -Recurse -File -FollowSymlink` listing: 125 files each, none missing, none twice; `%USERPROFILE%` is expanded by the library
