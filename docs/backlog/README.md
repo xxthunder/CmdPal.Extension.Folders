@@ -9,6 +9,7 @@
 ## Table of Contents
 
 ### Open
+- [CPS-009 — A script takes arguments from the main search](cps-009.md)
 - [CPS-008e — ubCode shows and checks the requirements in VS Code](cps-008e.md)
 - [CPS-008d — A trace gate fails CI when a requirement has no test](cps-008d.md)
 - [CPS-008c — Code comments link to the requirements through sphinx-codelinks](cps-008c.md)
