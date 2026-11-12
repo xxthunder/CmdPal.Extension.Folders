@@ -1,6 +1,8 @@
 using System.Text.Json;
 using CmdPal.Extension.Shortcuts;
+using FoldersCatalog;
 using Microsoft.CommandPalette.Extensions;
+using Microsoft.CommandPalette.Extensions.Toolkit;
 
 namespace CmdPal.Extension.Shortcuts.Tests;
 
@@ -168,6 +170,65 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         Assert.Empty(items);
     }
 
+    [Theory]
+    [InlineData(".ps1", "pwsh")]
+    [InlineData(".bat", "cmd.exe")]
+    [InlineData(".cmd", "cmd.exe")]
+    public void TopLevelCommands_Script_RunsWithoutArgumentsOnEnter(string extension, string program)
+    {
+        var path = Touch("tool" + extension);
+        var started = new List<LaunchSpec>();
+        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec =>
+        {
+            started.Add(spec);
+            return true;
+        });
+
+        var item = Assert.Single(provider.TopLevelCommands());
+
+        var command = Assert.IsType<RunScriptCommand>(Assert.IsType<CommandItem>(item).Command);
+        Assert.Equal("Run", command.Name);
+        Assert.Equal(path, command.Id);
+        var result = command.Invoke();
+        Assert.Equal(CommandResultKind.Dismiss, result.Kind);
+        var spec = Assert.Single(started);
+        Assert.Equal(ScriptLaunch.For(path, ""), spec);
+        Assert.Equal(program, spec.FileName);
+    }
+
+    [Theory]
+    [InlineData(".ps1")]
+    [InlineData(".bat")]
+    [InlineData(".cmd")]
+    public void TopLevelCommands_Script_AsksForArgumentsOnCtrlEnter(string extension)
+    {
+        var path = Touch("tool" + extension);
+        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec => true);
+
+        var item = Assert.Single(provider.TopLevelCommands());
+
+        var more = Assert.Single(item.MoreCommands);
+        var context = Assert.IsType<CommandContextItem>(more);
+        var page = Assert.IsType<ScriptArgumentsPage>(context.Command);
+        Assert.Equal("Run with arguments", page.Name);
+        Assert.Equal(path + "#arguments", page.Id);
+    }
+
+    [Theory]
+    [InlineData(".url")]
+    [InlineData(".lnk")]
+    [InlineData(".exe")]
+    public void TopLevelCommands_NotAScript_StartsThroughTheShell(string extension)
+    {
+        Touch("tool" + extension);
+        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec => true);
+
+        var item = Assert.Single(provider.TopLevelCommands());
+
+        Assert.IsType<StartFileCommand>(item.Command);
+        Assert.Empty(item.MoreCommands);
+    }
+
     [Fact]
     public void StartFileCommand_Invoke_StartsThePathAndDismisses()
     {
@@ -183,5 +244,21 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
 
         Assert.Equal([(path, Path.GetDirectoryName(path)!)], started);
         Assert.Equal(CommandResultKind.Dismiss, result.Kind);
+    }
+
+    [Fact]
+    public void Run_StartThrows_ShowsAToast()
+    {
+        Touch("tool.cmd");
+        var provider = new ShortcutsCommandsProvider(
+            Manager(P("**"), ".cmd"),
+            _ => throw new InvalidOperationException("No file name"));
+        var item = Assert.Single(provider.TopLevelCommands());
+        var command = Assert.IsType<RunScriptCommand>(Assert.IsType<CommandItem>(item).Command);
+
+        var result = command.Invoke();
+
+        Assert.Equal(CommandResultKind.ShowToast, result.Kind);
+        Assert.Equal("Could not start tool.cmd: No file name", ((IToastArgs)result.Args!).Message);
     }
 }

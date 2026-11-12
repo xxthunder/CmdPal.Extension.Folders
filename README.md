@@ -7,23 +7,30 @@ recently you start them. It fills the gap Keypirinha's `filescatalog` leaves whe
 Command Palette: the built-in *Installed apps* extension searches only the Start menu, the
 desktop and `PATH`.
 
-*Shortcuts* here are the small things you start by name: scripts (`.cmd`, `.bat`), links
+*Shortcuts* here are the small things you start by name: scripts (`.ps1`, `.cmd`, `.bat`), links
 (`.lnk`, `.url`) and programs (`.exe`), kept in folders of your own — such as `~\shortcuts`,
 where [xxthunder/shortcuts](https://github.com/xxthunder/shortcuts), a keyboard-driven launcher
 and automation toolkit for Windows, installs itself and its scripts. By default the extension catalogues
-`%USERPROFILE%\shortcuts\**` and `%USERPROFILE%\shortcuts_private\**` with those five
+`%USERPROFILE%\shortcuts\**` and `%USERPROFILE%\shortcuts_private\**` with those six
 extensions; both are settings.
 
 Formerly called CmdPal.Extension.Folders.
 
 Status: in development — see the [backlog](docs/backlog/README.md).
 
+## Starting a script
+
+A script (`.ps1`, `.bat`, `.cmd`) runs on Enter, in its own folder. Ctrl+Enter (the item's
+second command) opens a page: type the arguments, press Enter, and the script runs with them.
+A `.ps1` runs in `pwsh`, with your profile loaded. Links and
+programs (`.url`, `.lnk`, `.exe`) start on Enter, as before.
+
 ## Listing the catalogue
 
 From the repository root, with the .NET 10 SDK:
 
 ```
-dotnet run tools/catalog.cs -- --ext ".url .lnk .cmd .bat .exe" "%USERPROFILE%\shortcuts\**" "%USERPROFILE%\shortcuts_private\**"
+dotnet run tools/catalog.cs -- --ext ".url .lnk .cmd .bat .ps1 .exe" "%USERPROFILE%\shortcuts\**" "%USERPROFILE%\shortcuts_private\**"
 ```
 
 It prints one line per entry (name, folder, full path, tab-separated), then the number of
@@ -63,7 +70,9 @@ dotnet build src/CmdPal.Extension.Shortcuts/CmdPal.Extension.Shortcuts.csproj -c
 
 ## Trying a development build
 
-Register the build, then run *Reload extensions* in Command Palette:
+Register the build, then restart Command Palette: exit PowerToys from the tray and start it
+again. Stopping the extension while Command Palette runs can leave stale state, and the extension
+then loads no commands.
 
 ```powershell
 dotnet build src/CmdPal.Extension.Shortcuts/CmdPal.Extension.Shortcuts.csproj -p:Platform=x64
@@ -71,8 +80,8 @@ Add-AppxPackage -Register (Resolve-Path "src\CmdPal.Extension.Shortcuts\bin\x64\
 ```
 
 A registered development build runs in place from that `bin` folder, so Command Palette's
-extension process holds its files. Before each rebuild, stop it — Command Palette starts it
-again on *Reload extensions*:
+extension process holds its files. Before each rebuild, stop it, and restart Command Palette
+(exit PowerToys from the tray and start it again) after the build:
 
 ```powershell
 Stop-Process -Name CmdPal.Extension.Shortcuts -ErrorAction SilentlyContinue
