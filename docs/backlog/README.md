@@ -9,7 +9,6 @@
 ## Table of Contents
 
 ### Open
-- [CPS-009 — A script takes arguments from the main search](cps-009.md)
 - [CPS-008e — ubCode shows and checks the requirements in VS Code](cps-008e.md)
 - [CPS-008d — A trace gate fails CI when a requirement has no test](cps-008d.md)
 - [CPS-008c — Code comments link to the requirements through sphinx-codelinks](cps-008c.md)
@@ -23,6 +22,7 @@
 - [CPS-002d — A file added to a catalogued folder appears without a restart](cps-002d.md)
 
 ### In Progress
+- [CPS-009 — A script takes arguments from the main search](cps-009.md)
 - [CPS-002 — Folders of your choice appear in the Command Palette main search](cps-002.md)
 - [CPS-001 — Backlog refinement](cps-001.md)
 
