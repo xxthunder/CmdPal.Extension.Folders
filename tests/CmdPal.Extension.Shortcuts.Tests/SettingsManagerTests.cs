@@ -15,7 +15,7 @@ public sealed class SettingsManagerTests : IDisposable
     private static readonly string[] DefaultPatterns =
         [@"%USERPROFILE%\shortcuts\**", @"%USERPROFILE%\shortcuts_private\**"];
 
-    private static readonly string[] DefaultExtensions = [".url", ".lnk", ".cmd", ".bat", ".exe"];
+    private static readonly string[] DefaultExtensions = [".url", ".lnk", ".cmd", ".bat", ".ps1", ".exe"];
 
     [Fact]
     public void SettingsManager_WithoutFile_HasDefaults()

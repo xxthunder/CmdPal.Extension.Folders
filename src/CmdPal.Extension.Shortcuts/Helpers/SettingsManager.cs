@@ -19,7 +19,7 @@ public sealed partial class SettingsManager : JsonSettingsManager
 
     public const string DefaultPatterns = "%USERPROFILE%\\shortcuts\\**\n%USERPROFILE%\\shortcuts_private\\**";
 
-    public const string DefaultExtensions = ".url .lnk .cmd .bat .exe";
+    public const string DefaultExtensions = ".url .lnk .cmd .bat .ps1 .exe";
 
     private readonly TextSetting _patterns = new(
         PatternsKey,
