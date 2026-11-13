@@ -5,6 +5,7 @@
 - **Open** - Ready to be picked up
 - **In Progress** - Currently being worked on
 - **Done** - Completed
+- **Superseded** - Replaced by another item
 
 ## Table of Contents
 
@@ -19,7 +20,6 @@
 - [CPS-007 — Badges in the README, coverage on Codecov](cps-007.md)
 - [CPS-006 — Folders whose names start with a dot are left out unless named](cps-006.md)
 - [CPS-005 — The extension shows its own icon](cps-005.md)
-- [CPS-002e — The author installs a signed package from CI](cps-002e.md)
 - [CPS-002d — A file added to a catalogued folder appears without a restart](cps-002d.md)
 
 ### In Progress
@@ -33,6 +33,9 @@
 - [CPS-002c — Folders and extensions are settings of the extension](cps-002c.md)
 - [CPS-002b — The extension lists the catalogue as top-level commands and starts a file](cps-002b.md)
 - [CPS-002a — The catalogue library lists files by folder pattern and extension](cps-002a.md)
+
+### Superseded
+- [CPS-002e — The author installs a signed package from CI](cps-002e.md) (by CPS-010)
 
 ---
 
