@@ -24,11 +24,11 @@
 - [CPS-002d — A file added to a catalogued folder appears without a restart](cps-002d.md)
 
 ### In Progress
-- [CPS-009 — A script takes arguments from the main search](cps-009.md)
 - [CPS-002 — Folders of your choice appear in the Command Palette main search](cps-002.md)
 - [CPS-001 — Backlog refinement](cps-001.md)
 
 ### Done
+- [CPS-009 — A script takes arguments from the main search](cps-009.md)
 - [CPS-004 — The repository and the extension are called Shortcuts](cps-004.md)
 - [CPS-003 — A command-line tool lists the catalogue for given patterns and extensions](cps-003.md)
 - [CPS-002c — Folders and extensions are settings of the extension](cps-002c.md)
