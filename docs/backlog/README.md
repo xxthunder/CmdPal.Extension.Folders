@@ -9,6 +9,7 @@
 ## Table of Contents
 
 ### Open
+- [CPS-010 — Shortcuts is in the Command Palette Extension Gallery, installed from the Microsoft Store](cps-010.md)
 - [CPS-008e — ubCode shows and checks the requirements in VS Code](cps-008e.md)
 - [CPS-008d — A trace gate fails CI when a requirement has no test](cps-008d.md)
 - [CPS-008c — Code comments link to the requirements through sphinx-codelinks](cps-008c.md)
