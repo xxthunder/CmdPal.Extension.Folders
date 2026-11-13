@@ -10,7 +10,6 @@
 ## Table of Contents
 
 ### Open
-- [CPS-012 — A script's earlier arguments are offered again](cps-012.md)
 - [CPS-011 — A new user sees how to choose folders when the catalogue is empty](cps-011.md)
 - [CPS-010 — Shortcuts is in the Command Palette Extension Gallery, installed from the Microsoft Store](cps-010.md)
 - [CPS-008e — ubCode shows and checks the requirements in VS Code](cps-008e.md)
@@ -25,6 +24,7 @@
 - [CPS-002d — A file added to a catalogued folder appears without a restart](cps-002d.md)
 
 ### In Progress
+- [CPS-012 — A script's earlier arguments are offered again](cps-012.md)
 - [CPS-002 — Folders of your choice appear in the Command Palette main search](cps-002.md)
 - [CPS-001 — Backlog refinement](cps-001.md)
 
