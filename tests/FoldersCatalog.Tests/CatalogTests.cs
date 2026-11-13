@@ -153,6 +153,54 @@ public sealed class CatalogTests : IDisposable
     }
 
     [Fact]
+    public void Build_SkipsDotFoldersBelowRoot()
+    {
+        Touch("root", "a.cmd");
+        Touch("root", ".venv", "v.cmd");
+        Touch("root", "sub", "b.cmd");
+        Touch("root", "sub", ".claude", "c.cmd");
+        Touch("root", "my.tools", "m.cmd");
+
+        var entries = Catalog.Build([P("root") + "/**"], Cmd);
+
+        Assert.Equal(Sorted(P("root", "a.cmd"), P("root", "sub", "b.cmd"), P("root", "my.tools", "m.cmd")), Paths(entries));
+    }
+
+    [Fact]
+    public void Build_SkipsDotFolderLink()
+    {
+        Touch("other", "x.cmd");
+        Touch("root", "a.cmd");
+        Directory.CreateSymbolicLink(P("root", ".link"), P("other"));
+
+        var entries = Catalog.Build([P("root") + "/**"], Cmd);
+
+        Assert.Equal(Sorted(P("root", "a.cmd")), Paths(entries));
+    }
+
+    [Fact]
+    public void Build_DotFolderAsRoot_IsListed()
+    {
+        Touch("root", ".tools", "t.cmd");
+        Touch("root", ".tools", "sub", "s.cmd");
+        Touch("root", ".tools", ".cache", "x.cmd");
+
+        var entries = Catalog.Build([P("root", ".tools") + "/**"], Cmd);
+
+        Assert.Equal(Sorted(P("root", ".tools", "t.cmd"), P("root", ".tools", "sub", "s.cmd")), Paths(entries));
+    }
+
+    [Fact]
+    public void Build_DotFolderAsNonRecursiveRoot_IsListed()
+    {
+        Touch("root", ".tools", "t.cmd");
+
+        var entries = Catalog.Build([P("root", ".tools")], Cmd);
+
+        Assert.Equal(Sorted(P("root", ".tools", "t.cmd")), Paths(entries));
+    }
+
+    [Fact]
     public void Build_FollowsFolderLink()
     {
         Touch("other", "x.cmd");

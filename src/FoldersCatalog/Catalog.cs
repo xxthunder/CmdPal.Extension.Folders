@@ -1,6 +1,6 @@
 namespace FoldersCatalog;
 
-/// <summary>Builds the catalogue: the files of the given folder patterns that have one of the given extensions.</summary>
+/// <summary>Builds the catalogue: the files of the given folder patterns that have one of the given extensions; folders whose names start with a dot are skipped below a pattern root.</summary>
 public static class Catalog
 {
     private static readonly StringComparer PathComparer =
@@ -58,6 +58,12 @@ public static class Catalog
 
         foreach (var sub in Directory.EnumerateDirectories(dir, "*", options))
         {
+            // Tool folders such as .venv carry no Hidden attribute on Windows, so skip them by name.
+            if (Path.GetFileName(sub).StartsWith('.'))
+            {
+                continue;
+            }
+
             var childReal = RealFolder(sub, Path.Combine(real, Path.GetFileName(sub)));
             if (childReal is not null)
             {
