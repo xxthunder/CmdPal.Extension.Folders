@@ -27,6 +27,10 @@
     <ProjectReference Include="../FoldersCatalog/FoldersCatalog.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="CmdPal.Extension.Shortcuts.Tests" />
+  </ItemGroup>
+
   <!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget

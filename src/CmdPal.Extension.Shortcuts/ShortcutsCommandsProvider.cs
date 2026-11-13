@@ -17,6 +17,8 @@ public sealed partial class ShortcutsCommandsProvider : CommandProvider
 
     private readonly Func<LaunchSpec, bool> _startScript;
 
+    private readonly ArgumentHistory _history;
+
     private ICommandItem[] _commands;
 
     public ShortcutsCommandsProvider()
@@ -24,10 +26,11 @@ public sealed partial class ShortcutsCommandsProvider : CommandProvider
     {
     }
 
-    public ShortcutsCommandsProvider(SettingsManager settings, Func<LaunchSpec, bool>? startScript = null)
+    public ShortcutsCommandsProvider(SettingsManager settings, Func<LaunchSpec, bool>? startScript = null, ArgumentHistory? history = null)
     {
         _settings = settings;
         _startScript = startScript ?? StartProcess;
+        _history = history ?? new ArgumentHistory(SettingsManager.HistoryJsonPath());
         DisplayName = "Shortcuts";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
         Settings = settings.Settings;
@@ -82,7 +85,7 @@ public sealed partial class ShortcutsCommandsProvider : CommandProvider
             Icon = icon,
             MoreCommands =
             [
-                new CommandContextItem(new ScriptArgumentsPage(entry.FullPath, _startScript)),
+                new CommandContextItem(new ScriptArgumentsPage(entry.FullPath, _history, _startScript)),
             ],
         };
     }
