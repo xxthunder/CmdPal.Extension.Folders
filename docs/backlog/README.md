@@ -10,6 +10,7 @@
 ## Table of Contents
 
 ### Open
+- [CPS-011 — A new user sees how to choose folders when the catalogue is empty](cps-011.md)
 - [CPS-010 — Shortcuts is in the Command Palette Extension Gallery, installed from the Microsoft Store](cps-010.md)
 - [CPS-008e — ubCode shows and checks the requirements in VS Code](cps-008e.md)
 - [CPS-008d — A trace gate fails CI when a requirement has no test](cps-008d.md)
@@ -35,7 +36,7 @@
 - [CPS-002a — The catalogue library lists files by folder pattern and extension](cps-002a.md)
 
 ### Superseded
-- [CPS-002e — The author installs a signed package from CI](cps-002e.md) (by CPS-010)
+- [CPS-002e — The author installs a signed package from CI](cps-002e.md)
 
 ---
 
