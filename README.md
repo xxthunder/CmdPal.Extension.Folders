@@ -36,6 +36,15 @@ dotnet run tools/catalog.cs -- --ext ".url .lnk .cmd .bat .ps1 .exe" "%USERPROFI
 It prints one line per entry (name, folder, full path, tab-separated), then the number of
 entries; without patterns or without `--ext` it prints its usage and exits with 2.
 
+## Logos
+
+The logos come from `src/CmdPal.Extension.Shortcuts/Assets/Source/Logo.png`, the logo of
+xxthunder/shortcuts. After changing it, render them again:
+
+```
+dotnet run tools/logos.cs -- src/CmdPal.Extension.Shortcuts/Assets/Source/Logo.png src/CmdPal.Extension.Shortcuts/Assets
+```
+
 ## Setting up a Windows machine
 
 Once per machine, in PowerShell 7:

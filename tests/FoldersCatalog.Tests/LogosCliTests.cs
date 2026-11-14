@@ -1,7 +1,6 @@
-using System.Diagnostics;
-
 namespace FoldersCatalog.Tests;
 
+[Collection(LogosTool.CollectionName)]
 public sealed class LogosCliTests : IDisposable
 {
     private const string UsageLine =
@@ -29,8 +28,6 @@ public sealed class LogosCliTests : IDisposable
         ["LockScreenLogo.scale-200.png"] = (48, 48),
     };
 
-    private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(120);
-
     private readonly string _root = Path.GetFullPath(
         Path.Combine(Path.GetTempPath(), "cpf-logos-" + Guid.NewGuid().ToString("N")));
 
@@ -45,49 +42,6 @@ public sealed class LogosCliTests : IDisposable
         var path = P("source.png");
         File.WriteAllBytes(path, Convert.FromBase64String(SourcePngBase64));
         return path;
-    }
-
-    private static string RepoRoot()
-    {
-        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
-        {
-            if (File.Exists(Path.Combine(dir.FullName, "scripts", "gate")))
-            {
-                return dir.FullName;
-            }
-        }
-
-        throw new InvalidOperationException("Repository root (scripts/gate) not found above " + AppContext.BaseDirectory);
-    }
-
-    private static (int ExitCode, string Stdout, string Stderr) Run(params string[] args)
-    {
-        var info = new ProcessStartInfo("dotnet")
-        {
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-        };
-        info.ArgumentList.Add("run");
-        info.ArgumentList.Add(Path.Combine(RepoRoot(), "tools", "logos.cs"));
-        info.ArgumentList.Add("--");
-        foreach (var arg in args)
-        {
-            info.ArgumentList.Add(arg);
-        }
-
-        using var process = Process.Start(info)!;
-        var stdout = process.StandardOutput.ReadToEndAsync();
-        var stderr = process.StandardError.ReadToEndAsync();
-
-        if (!process.WaitForExit(Timeout))
-        {
-            process.Kill(entireProcessTree: true);
-            process.WaitForExit();
-            Assert.Fail($"dotnet run did not exit within {Timeout.TotalSeconds} s. stderr:\n{stderr.GetAwaiter().GetResult()}");
-        }
-
-        return (process.ExitCode, stdout.GetAwaiter().GetResult(), stderr.GetAwaiter().GetResult());
     }
 
     private static (int Width, int Height) PngSize(string path)
@@ -115,7 +69,7 @@ public sealed class LogosCliTests : IDisposable
         var assets = P("assets");
         Directory.CreateDirectory(assets);
 
-        var (code, _, stderr) = Run(source, assets);
+        var (code, _, stderr) = ToolRunner.Run("logos.cs", source, assets);
 
         Assert.True(code == 0, stderr);
         Assert.Equal(Logos.Keys.Order(StringComparer.Ordinal).ToArray(), PngNames(assets));
@@ -132,11 +86,11 @@ public sealed class LogosCliTests : IDisposable
         var assets = P("assets");
         Directory.CreateDirectory(assets);
 
-        var (code1, _, stderr1) = Run(source, assets);
+        var (code1, _, stderr1) = ToolRunner.Run("logos.cs", source, assets);
         Assert.True(code1 == 0, stderr1);
         var first = PngNames(assets).ToDictionary(n => n, n => File.ReadAllBytes(Path.Combine(assets, n)));
 
-        var (code2, _, stderr2) = Run(source, assets);
+        var (code2, _, stderr2) = ToolRunner.Run("logos.cs", source, assets);
         Assert.True(code2 == 0, stderr2);
 
         Assert.Equal(Logos.Keys.Order(StringComparer.Ordinal).ToArray(), PngNames(assets));
@@ -149,7 +103,7 @@ public sealed class LogosCliTests : IDisposable
     [Fact]
     public void Cli_WithoutArguments_PrintsUsageAndExits2()
     {
-        var (code, _, stderr) = Run();
+        var (code, _, stderr) = ToolRunner.Run("logos.cs");
 
         Assert.Equal(2, code);
         Assert.StartsWith(UsageLine, stderr);
@@ -162,7 +116,7 @@ public sealed class LogosCliTests : IDisposable
         var assets = P("assets");
         Directory.CreateDirectory(assets);
 
-        var (code, _, stderr) = Run(source, assets);
+        var (code, _, stderr) = ToolRunner.Run("logos.cs", source, assets);
 
         Assert.Equal(1, code);
         Assert.Contains(source, stderr);

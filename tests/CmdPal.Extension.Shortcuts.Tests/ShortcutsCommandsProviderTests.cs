@@ -54,6 +54,15 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
     }
 
     [Fact]
+    public void Provider_Icon_IsAFileNextToTheBinary()
+    {
+        var provider = new ShortcutsCommandsProvider(Manager(P("**")));
+
+        Assert.True(File.Exists(provider.Icon.Light.Icon), $"Light icon not found: {provider.Icon.Light.Icon}");
+        Assert.True(File.Exists(provider.Icon.Dark.Icon), $"Dark icon not found: {provider.Icon.Dark.Icon}");
+    }
+
+    [Fact]
     public void SettingsManager_KeysUseTheShortcutsNamespace()
     {
         Assert.Equal("CmdPal.Extension.Shortcuts.Patterns", SettingsManager.PatternsKey);
