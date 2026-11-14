@@ -10,6 +10,7 @@
 ## Table of Contents
 
 ### Open
+- [CPS-013 — One build harness for gate, CI and UAT](cps-013.md)
 - [CPS-011 — A new user sees how to choose folders when the catalogue is empty](cps-011.md)
 - [CPS-010 — Shortcuts is in the Command Palette Extension Gallery, installed from the Microsoft Store](cps-010.md)
 - [CPS-008e — ubCode shows and checks the requirements in VS Code](cps-008e.md)
