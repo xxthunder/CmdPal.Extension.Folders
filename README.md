@@ -21,7 +21,9 @@ Status: in development — see the [backlog](docs/backlog/README.md).
 ## Starting a script
 
 A script (`.ps1`, `.bat`, `.cmd`) runs on Enter, in its own folder. Ctrl+Enter (the item's
-second command) opens a page: type the arguments, press Enter, and the script runs with them.
+second command) opens a list of the arguments the script was started with before, newest
+first, at most 10. Typing filters the list, and its first entry runs the script with what was
+typed; Enter runs the selected entry.
 A `.ps1` runs in `pwsh`, with your profile loaded. Links and
 programs (`.url`, `.lnk`, `.exe`) start on Enter, as before.
 

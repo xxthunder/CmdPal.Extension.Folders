@@ -41,4 +41,14 @@ public sealed class SettingsManagerTests : IDisposable
         Assert.Equal([Path.Combine(_root, "**")], manager.Patterns);
         Assert.Equal(DefaultExtensions, manager.Extensions);
     }
+
+    [Fact]
+    public void HistoryJsonPath_IsHistoryJsonBesideSettingsJson()
+    {
+        var settings = SettingsManager.SettingsJsonPath();
+        var history = SettingsManager.HistoryJsonPath();
+
+        Assert.Equal("history.json", Path.GetFileName(history));
+        Assert.Equal(Path.GetDirectoryName(settings), Path.GetDirectoryName(history));
+    }
 }

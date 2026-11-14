@@ -41,14 +41,14 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
 
     private ICommandItem[] Items(params string[] patterns)
     {
-        var provider = new ShortcutsCommandsProvider(Manager(string.Join("\n", patterns)));
+        var provider = new ShortcutsCommandsProvider(Manager(string.Join("\n", patterns)), history: NewHistory());
         return provider.TopLevelCommands();
     }
 
     [Fact]
     public void Provider_DisplayName_IsShortcuts()
     {
-        var provider = new ShortcutsCommandsProvider(Manager(P("**")));
+        var provider = new ShortcutsCommandsProvider(Manager(P("**")), history: NewHistory());
 
         Assert.Equal("Shortcuts", provider.DisplayName);
     }
@@ -74,7 +74,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
     {
         var manager = Manager(P("**"));
 
-        var provider = new ShortcutsCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager, history: NewHistory());
 
         Assert.Same(manager.Settings, provider.Settings);
     }
@@ -87,7 +87,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         var file = Path.Combine(_root, "settings-saved.json");
         File.WriteAllText(file, Json(P("a", "**"), ".cmd"));
         var manager = new SettingsManager(file);
-        var provider = new ShortcutsCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager, history: NewHistory());
         var raised = 0;
         provider.ItemsChanged += (_, _) => raised++;
         var newPattern = P("b", "**");
@@ -107,7 +107,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         Touch("a.cmd");
         var manager = Manager("");
 
-        var provider = new ShortcutsCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager, history: NewHistory());
 
         Assert.Empty(provider.TopLevelCommands());
     }
@@ -118,7 +118,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         Touch("a.cmd");
         var manager = Manager(P("**"), "");
 
-        var provider = new ShortcutsCommandsProvider(manager);
+        var provider = new ShortcutsCommandsProvider(manager, history: NewHistory());
 
         Assert.Empty(provider.TopLevelCommands());
     }
@@ -191,7 +191,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         {
             started.Add(spec);
             return true;
-        });
+        }, NewHistory());
 
         var item = Assert.Single(provider.TopLevelCommands());
 
@@ -212,7 +212,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
     public void TopLevelCommands_Script_AsksForArgumentsOnCtrlEnter(string extension)
     {
         var path = Touch("tool" + extension);
-        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec => true);
+        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec => true, NewHistory());
 
         var item = Assert.Single(provider.TopLevelCommands());
 
@@ -223,6 +223,37 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         Assert.Equal(path + "#arguments", page.Id);
     }
 
+    private ArgumentHistory NewHistory() =>
+        new(Path.Combine(_root, "history-" + Guid.NewGuid().ToString("N") + ".json"));
+
+    private static ScriptArgumentsPage ArgumentsPage(ICommandItem item)
+    {
+        var more = Assert.Single(item.MoreCommands);
+        var context = Assert.IsType<CommandContextItem>(more);
+        return Assert.IsType<ScriptArgumentsPage>(context.Command);
+    }
+
+    [Fact]
+    public void TopLevelCommands_ScriptPages_ShareOneHistory()
+    {
+        var first = Touch("a.ps1");
+        var second = Touch("b.ps1");
+        var provider = new ShortcutsCommandsProvider(Manager(P("**"), ".ps1"), spec => true, NewHistory());
+        var items = provider.TopLevelCommands();
+        Assert.Equal(2, items.Length);
+        var firstItem = items.Single(i => ArgumentsPage(i).Id == first + "#arguments");
+        var secondItem = items.Single(i => ArgumentsPage(i).Id == second + "#arguments");
+
+        var page = ArgumentsPage(firstItem);
+        page.SearchText = "stop";
+        var run = Assert.IsAssignableFrom<IInvokableCommand>(page.GetItems()[0].Command);
+        run.Invoke(null!);
+
+        var again = ArgumentsPage(firstItem);
+        Assert.Equal("stop", Assert.Single(again.GetItems()).Title);
+        Assert.Empty(ArgumentsPage(secondItem).GetItems());
+    }
+
     [Theory]
     [InlineData(".url")]
     [InlineData(".lnk")]
@@ -230,7 +261,7 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
     public void TopLevelCommands_NotAScript_StartsThroughTheShell(string extension)
     {
         Touch("tool" + extension);
-        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec => true);
+        var provider = new ShortcutsCommandsProvider(Manager(P("**"), extension), spec => true, NewHistory());
 
         var item = Assert.Single(provider.TopLevelCommands());
 
@@ -261,7 +292,8 @@ public sealed class ShortcutsCommandsProviderTests : IDisposable
         Touch("tool.cmd");
         var provider = new ShortcutsCommandsProvider(
             Manager(P("**"), ".cmd"),
-            _ => throw new InvalidOperationException("No file name"));
+            _ => throw new InvalidOperationException("No file name"),
+            NewHistory());
         var item = Assert.Single(provider.TopLevelCommands());
         var command = Assert.IsType<RunScriptCommand>(Assert.IsType<CommandItem>(item).Command);
 

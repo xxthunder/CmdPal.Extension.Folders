@@ -71,4 +71,7 @@ public sealed partial class SettingsManager : JsonSettingsManager
 
         return Path.Combine(directory, "settings.json");
     }
+
+    internal static string HistoryJsonPath() =>
+        Path.Combine(Path.GetDirectoryName(SettingsJsonPath())!, "history.json");
 }
